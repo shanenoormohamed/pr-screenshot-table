@@ -88,7 +88,7 @@ export function TableEditor({ table, onChange }: TableEditorProps) {
                   <input
                     type="text"
                     value={rowTitle}
-                    aria-label={`Row ${rowIndex + 1} title`}
+                    aria-label={`Screen ${rowIndex + 1} title`}
                     onChange={(event) =>
                       updateRowTitle(rowIndex, event.target.value)
                     }

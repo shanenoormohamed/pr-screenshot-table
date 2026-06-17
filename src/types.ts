@@ -20,7 +20,7 @@ export function createEmptyTable(rows: number, cols: number): TableState {
     rows,
     cols,
     columnTitles: Array.from({ length: cols }, (_, i) => `Column ${i + 1}`),
-    rowTitles: Array.from({ length: rows }, (_, i) => `Row ${i + 1}`),
+    rowTitles: Array.from({ length: rows }, (_, i) => `Screen ${i + 1}`),
     cells: Array.from({ length: rows }, () =>
       Array.from({ length: cols }, () => null),
     ),
