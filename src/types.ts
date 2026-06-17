@@ -20,28 +20,38 @@ export function defaultRowTitle(index: number, totalRows: number): string {
   return `Screen ${index + 1}`;
 }
 
+export function isAutoRowTitle(
+  title: string,
+  index: number,
+  totalRows: number,
+): boolean {
+  if (!title) return true;
+  if (title === `Row ${index + 1}`) return true;
+  if (title === `Screen ${index + 1}`) return true;
+  if (totalRows === 1 && (title === 'Screen 1' || title === 'Row 1')) return true;
+  if (totalRows > 1 && index === 0 && title === 'Screen') return true;
+  return false;
+}
+
 export function normalizeRowTitle(
   title: string | undefined,
   index: number,
   totalRows: number,
 ): string {
-  const expected = defaultRowTitle(index, totalRows);
-
-  const isLegacyDefault =
-    !title ||
-    title === `Row ${index + 1}` ||
-    title === `Screen ${index + 1}` ||
-    (totalRows === 1 && (title === 'Screen 1' || title === 'Row 1')) ||
-    (totalRows > 1 && index === 0 && title === 'Screen');
-
-  if (isLegacyDefault) return expected;
-  return title;
+  if (isAutoRowTitle(title ?? '', index, totalRows)) {
+    return defaultRowTitle(index, totalRows);
+  }
+  return title ?? defaultRowTitle(index, totalRows);
 }
 
 export function normalizeRowTitles(table: TableState): TableState {
-  const rowTitles = table.rowTitles.map((title, index) =>
-    normalizeRowTitle(title, index, table.rows),
+  const rowTitles = Array.from({ length: table.rows }, (_, index) =>
+    normalizeRowTitle(table.rowTitles[index], index, table.rows),
   );
+
+  if (table.rows === 1 && isAutoRowTitle(rowTitles[0], 0, 1)) {
+    rowTitles[0] = 'Screen';
+  }
   const unchanged = rowTitles.every((title, i) => title === table.rowTitles[i]);
   return unchanged ? table : { ...table, rowTitles };
 }

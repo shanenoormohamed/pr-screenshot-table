@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { GridPicker } from './components/GridPicker';
 import { MarkdownOutput } from './components/MarkdownOutput';
 import { TableEditor } from './components/TableEditor';
@@ -13,7 +13,11 @@ function App() {
   const [urlPrefix, setUrlPrefix] = useState('');
 
   const handleGridSelect = useCallback((rows: number, cols: number) => {
-    setTable((prev) => resizeTable(prev, rows, cols));
+    setTable((prev) => normalizeRowTitles(resizeTable(prev, rows, cols)));
+  }, []);
+
+  useEffect(() => {
+    setTable((current) => normalizeRowTitles(current));
   }, []);
 
   const markdown = useMemo(
@@ -37,7 +41,10 @@ function App() {
         onSelect={handleGridSelect}
       />
 
-      <TableEditor table={table} onChange={setTable} />
+      <TableEditor
+        table={table}
+        onChange={(next) => setTable(normalizeRowTitles(next))}
+      />
 
       <MarkdownOutput
         markdown={markdown}
