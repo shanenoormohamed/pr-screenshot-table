@@ -32,8 +32,8 @@ export function MarkdownOutput({
           onChange={(event) => onUrlPrefixChange(event.target.value)}
         />
         <p className="markdown-output__help">
-          Paste your ci-screenshots or PR asset base URL. Filenames from each
-          cell are appended automatically. Leave blank to use filenames only.
+          References use numbered placeholders (e.g. <code>[1]: Screenshot 1</code>).
+          Add a URL prefix to output full image URLs in the reference block instead.
         </p>
       </div>
       <pre className="markdown-output__preview">{markdown}</pre>

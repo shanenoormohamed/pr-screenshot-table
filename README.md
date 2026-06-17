@@ -25,11 +25,16 @@ Open http://localhost:5173/
 ## Example output
 
 ```markdown
-| | Light | Dark |
+|  | Before | After |
 | --- | --- | --- |
-| Home | ![home-light](https://github.com/.../home-light.png) | ![home-dark](...) |
-| Profile | ![profile-light](...) | ![profile-dark](...) |
+| My Profile | ![1] | ![2] |
+
+[1]: Screenshot 1
+
+[2]: Screenshot 2
 ```
+
+Images are numbered left-to-right, top-to-bottom. Alt text in each cell becomes the reference label (or `Screenshot N` by default).
 
 Matches the hs-ios PR screenshot table pattern (`## Visual validation`).
 
