@@ -3,11 +3,13 @@ import { GridPicker } from './components/GridPicker';
 import { MarkdownOutput } from './components/MarkdownOutput';
 import { TableEditor } from './components/TableEditor';
 import { generateMarkdown } from './lib/markdown';
-import { createEmptyTable, resizeTable, type TableState } from './types';
+import { createEmptyTable, normalizeRowTitles, resizeTable, type TableState } from './types';
 import './App.css';
 
 function App() {
-  const [table, setTable] = useState<TableState>(() => createEmptyTable(2, 2));
+  const [table, setTable] = useState<TableState>(() =>
+    normalizeRowTitles(createEmptyTable(2, 2)),
+  );
   const [urlPrefix, setUrlPrefix] = useState('');
 
   const handleGridSelect = useCallback((rows: number, cols: number) => {
