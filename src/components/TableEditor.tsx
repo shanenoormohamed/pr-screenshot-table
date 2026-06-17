@@ -36,12 +36,32 @@ export function TableEditor({ table, onChange }: TableEditorProps) {
     updateCell(row, col, null);
   };
 
+  const applyBeforeAfterColumns = () => {
+    onChange({ ...table, columnTitles: ['Before', 'After'] });
+  };
+
   return (
     <section className="table-editor">
       <h2>Table</h2>
       <p className="table-editor__hint">
         Edit column and row titles. Drop a screenshot into each cell.
       </p>
+      {table.cols === 2 && (
+        <span
+          role="button"
+          tabIndex={0}
+          className="table-editor__preset"
+          onClick={applyBeforeAfterColumns}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              applyBeforeAfterColumns();
+            }
+          }}
+        >
+          Set columns to Before / After
+        </span>
+      )}
       <div className="table-editor__scroll">
         <table>
           <thead>

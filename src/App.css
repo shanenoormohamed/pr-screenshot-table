@@ -37,6 +37,23 @@
   color: var(--text-muted);
 }
 
+.table-editor__preset {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #111827;
+  cursor: pointer;
+}
+
+.table-editor__preset:hover {
+  border-color: var(--accent);
+}
+
 .grid-picker__size {
   margin: 0 0 0.75rem;
   font-size: 0.875rem;
