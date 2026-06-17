@@ -26,6 +26,8 @@ Open http://localhost:5173/
 ## Example output
 
 ```markdown
+## Screenshots/Demo
+
 |  | Before | After |
 | --- | --- | --- |
 | My Profile | ![1] | ![2] |
