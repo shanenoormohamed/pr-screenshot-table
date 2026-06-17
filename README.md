@@ -17,10 +17,11 @@ Open http://localhost:5173/
 
 1. **Table size** — click and drag on the box grid (like inserting a table in Google Docs).
 2. **Titles** — edit column headers and row labels in the table.
-3. **Screenshots** — drop an image into each cell; set alt text if needed.
-4. **URL prefix** (optional) — paste your `ci-screenshots` base URL, e.g.  
+3. **Media** — drop PNG, JPG, GIF, MOV, or MP4 into each cell.
+4. **Resize all** — shrink files for PR (800px default, matches `sips -Z 800`). Download individually or as ZIP.
+5. **URL prefix** (optional) — paste your `ci-screenshots` base URL, e.g.  
    `https://github.com/org/repo/raw/ci-screenshots/12345`
-5. **Copy markdown** — paste into your PR description.
+6. **Copy markdown** — paste into your PR description.
 
 ## Example output
 
