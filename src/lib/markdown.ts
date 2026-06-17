@@ -54,7 +54,7 @@ export function generateMarkdown(
     return `| ${escapeCell(rowTitles[rowIndex] ?? '')} | ${imageCells.join(' | ')} |`;
   });
 
-  const parts = ['## Screenshots/Demo', '', header, separator, ...body];
+  const parts = ['## Screenshots/Video', '', header, separator, ...body];
   if (refs.length > 0) {
     parts.push('', refs.map((ref) => referenceDefinition(ref, urlPrefix)).join('\n\n'));
   }
