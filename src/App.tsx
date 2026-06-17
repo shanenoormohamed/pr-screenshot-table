@@ -1,24 +1,38 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { GridPicker } from './components/GridPicker';
 import { MarkdownOutput } from './components/MarkdownOutput';
 import { TableEditor } from './components/TableEditor';
 import { generateMarkdown } from './lib/markdown';
-import { createEmptyTable, normalizeRowTitles, resizeTable, type TableState } from './types';
+import {
+  createEmptyTable,
+  normalizeRowTitles,
+  resizeTable,
+} from './lib/table';
+import type { TableState } from './types';
 import './App.css';
 
 function App() {
-  const [table, setTable] = useState<TableState>(() =>
-    normalizeRowTitles(createEmptyTable(2, 2)),
+  const [table, setTable] = useState<TableState>(() => createEmptyTable(2, 2));
+
+  const updateTable = useCallback(
+    (updater: TableState | ((prev: TableState) => TableState)) => {
+      setTable((prev) =>
+        normalizeRowTitles(
+          typeof updater === 'function' ? updater(prev) : updater,
+        ),
+      );
+    },
+    [],
   );
+
+  const handleGridSelect = useCallback(
+    (rows: number, cols: number) => {
+      updateTable((prev) => resizeTable(prev, rows, cols));
+    },
+    [updateTable],
+  );
+
   const [urlPrefix, setUrlPrefix] = useState('');
-
-  const handleGridSelect = useCallback((rows: number, cols: number) => {
-    setTable((prev) => normalizeRowTitles(resizeTable(prev, rows, cols)));
-  }, []);
-
-  useEffect(() => {
-    setTable((current) => normalizeRowTitles(current));
-  }, []);
 
   const markdown = useMemo(
     () => generateMarkdown(table, urlPrefix),
@@ -41,10 +55,7 @@ function App() {
         onSelect={handleGridSelect}
       />
 
-      <TableEditor
-        table={table}
-        onChange={(next) => setTable(normalizeRowTitles(next))}
-      />
+      <TableEditor table={table} onChange={updateTable} />
 
       <MarkdownOutput
         markdown={markdown}

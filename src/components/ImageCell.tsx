@@ -1,4 +1,5 @@
 import { useRef, useState, type DragEvent } from 'react';
+import { ActionButton } from './ActionButton';
 import type { CellImage } from '../types';
 
 const ACCEPT = 'image/png,image/jpeg,image/gif,image/webp';
@@ -16,9 +17,11 @@ export function ImageCell({ cell, onSet, onClear }: ImageCellProps) {
   const handleFile = (file: File | undefined) => {
     if (!file || !file.type.startsWith('image/')) return;
     if (cell?.previewUrl) URL.revokeObjectURL(cell.previewUrl);
-    const previewUrl = URL.createObjectURL(file);
-    const alt = file.name.replace(/\.[^.]+$/, '');
-    onSet({ file, previewUrl, alt });
+    onSet({
+      file,
+      previewUrl: URL.createObjectURL(file),
+      alt: file.name.replace(/\.[^.]+$/, ''),
+    });
   };
 
   const onDrop = (event: DragEvent) => {
@@ -55,28 +58,17 @@ export function ImageCell({ cell, onSet, onClear }: ImageCellProps) {
             value={cell.alt}
             placeholder="Alt text"
             onClick={(event) => event.stopPropagation()}
-            onChange={(event) =>
-              onSet({ ...cell, alt: event.target.value })
-            }
+            onChange={(event) => onSet({ ...cell, alt: event.target.value })}
           />
-          <span
-            role="button"
-            tabIndex={0}
+          <ActionButton
             className="image-cell__clear"
             onClick={(event) => {
               event.stopPropagation();
               onClear();
             }}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                event.stopPropagation();
-                onClear();
-              }
-            }}
           >
             Clear
-          </span>
+          </ActionButton>
         </>
       ) : (
         <span className="image-cell__placeholder">Drop image</span>

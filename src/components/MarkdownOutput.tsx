@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ActionButton } from './ActionButton';
 
 type MarkdownOutputProps = {
   markdown: string;
@@ -37,20 +38,9 @@ export function MarkdownOutput({
         </p>
       </div>
       <pre className="markdown-output__preview">{markdown}</pre>
-      <span
-        role="button"
-        tabIndex={0}
-        className="copy-btn"
-        onClick={copy}
-        onKeyDown={(event) => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            copy();
-          }
-        }}
-      >
+      <ActionButton className="copy-btn" onClick={() => void copy()}>
         {copied ? 'Copied!' : 'Copy markdown'}
-      </span>
+      </ActionButton>
     </section>
   );
 }

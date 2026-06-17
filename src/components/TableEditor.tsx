@@ -1,4 +1,6 @@
+import { ActionButton } from './ActionButton';
 import { ImageCell } from './ImageCell';
+import { applyBeforeAfterColumns } from '../lib/table';
 import type { CellImage, TableState } from '../types';
 
 type TableEditorProps = {
@@ -7,19 +9,22 @@ type TableEditorProps = {
 };
 
 export function TableEditor({ table, onChange }: TableEditorProps) {
-  const updateColumnTitle = (index: number, value: string) => {
+  const patch = (partial: Partial<TableState>) =>
+    onChange({ ...table, ...partial });
+
+  const setColumnTitle = (index: number, value: string) => {
     const columnTitles = [...table.columnTitles];
     columnTitles[index] = value;
-    onChange({ ...table, columnTitles });
+    patch({ columnTitles });
   };
 
-  const updateRowTitle = (index: number, value: string) => {
+  const setRowTitle = (index: number, value: string) => {
     const rowTitles = [...table.rowTitles];
     rowTitles[index] = value;
-    onChange({ ...table, rowTitles });
+    patch({ rowTitles });
   };
 
-  const updateCell = (row: number, col: number, cell: CellImage | null) => {
+  const setCell = (row: number, col: number, cell: CellImage | null) => {
     const cells = table.cells.map((rowCells, rowIndex) =>
       rowIndex === row
         ? rowCells.map((existing, colIndex) =>
@@ -27,17 +32,13 @@ export function TableEditor({ table, onChange }: TableEditorProps) {
           )
         : rowCells,
     );
-    onChange({ ...table, cells });
+    patch({ cells });
   };
 
   const clearCell = (row: number, col: number) => {
     const existing = table.cells[row]?.[col];
     if (existing?.previewUrl) URL.revokeObjectURL(existing.previewUrl);
-    updateCell(row, col, null);
-  };
-
-  const applyBeforeAfterColumns = () => {
-    onChange({ ...table, columnTitles: ['Before', 'After'] });
+    setCell(row, col, null);
   };
 
   return (
@@ -47,20 +48,12 @@ export function TableEditor({ table, onChange }: TableEditorProps) {
         Edit column and row titles. Drop a screenshot into each cell.
       </p>
       {table.cols === 2 && (
-        <span
-          role="button"
-          tabIndex={0}
+        <ActionButton
           className="table-editor__preset"
-          onClick={applyBeforeAfterColumns}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-              event.preventDefault();
-              applyBeforeAfterColumns();
-            }
-          }}
+          onClick={() => onChange(applyBeforeAfterColumns(table))}
         >
           Set columns to Before / After
-        </span>
+        </ActionButton>
       )}
       <div className="table-editor__scroll">
         <table>
@@ -74,7 +67,7 @@ export function TableEditor({ table, onChange }: TableEditorProps) {
                     value={title}
                     aria-label={`Column ${colIndex + 1} title`}
                     onChange={(event) =>
-                      updateColumnTitle(colIndex, event.target.value)
+                      setColumnTitle(colIndex, event.target.value)
                     }
                   />
                 </th>
@@ -88,17 +81,17 @@ export function TableEditor({ table, onChange }: TableEditorProps) {
                   <input
                     type="text"
                     value={rowTitle}
-                    aria-label={`Screen ${rowIndex + 1} title`}
+                    aria-label={`Row ${rowIndex + 1} title`}
                     onChange={(event) =>
-                      updateRowTitle(rowIndex, event.target.value)
+                      setRowTitle(rowIndex, event.target.value)
                     }
                   />
                 </th>
-                {Array.from({ length: table.cols }, (_, colIndex) => (
+                {table.cells[rowIndex].map((cell, colIndex) => (
                   <td key={colIndex}>
                     <ImageCell
-                      cell={table.cells[rowIndex]?.[colIndex] ?? null}
-                      onSet={(cell) => updateCell(rowIndex, colIndex, cell)}
+                      cell={cell}
+                      onSet={(next) => setCell(rowIndex, colIndex, next)}
                       onClear={() => clearCell(rowIndex, colIndex)}
                     />
                   </td>
