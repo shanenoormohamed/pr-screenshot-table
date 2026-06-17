@@ -1,7 +1,10 @@
+import type { FileKind } from './lib/resize/types';
+
 export type CellImage = {
   file: File;
   previewUrl: string;
   alt: string;
+  kind: FileKind;
 };
 
 export type TableState = {

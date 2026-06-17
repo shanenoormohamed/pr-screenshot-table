@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { GridPicker } from './components/GridPicker';
 import { MarkdownOutput } from './components/MarkdownOutput';
+import { ResizeSection } from './components/ResizeSection';
 import { TableEditor } from './components/TableEditor';
 import { generateMarkdown } from './lib/markdown';
 import {
@@ -56,6 +57,8 @@ function App() {
       />
 
       <TableEditor table={table} onChange={updateTable} />
+
+      <ResizeSection table={table} />
 
       <MarkdownOutput
         markdown={markdown}

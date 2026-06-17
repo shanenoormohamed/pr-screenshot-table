@@ -23,7 +23,8 @@
 
 .grid-picker h2,
 .table-editor h2,
-.markdown-output h2 {
+.markdown-output h2,
+.settings h2 {
   margin: 0 0 0.35rem;
   font-size: 1.125rem;
   font-weight: 600;
@@ -162,7 +163,8 @@
   border-style: solid;
 }
 
-.image-cell img {
+.image-cell img,
+.image-cell video {
   max-width: 100%;
   max-height: 100px;
   object-fit: contain;
@@ -254,4 +256,118 @@
 
 .copy-btn:hover {
   filter: brightness(1.05);
+}
+
+.copy-btn--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.settings {
+  margin-top: 2rem;
+}
+
+.settings__subheading {
+  margin: 1rem 0 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.settings__row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.settings__label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.settings__field {
+  margin-bottom: 0.75rem;
+}
+
+.settings__field label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-h);
+  margin-bottom: 0.35rem;
+}
+
+.settings__field input[type='number'],
+.settings__field select {
+  width: 100%;
+  max-width: 200px;
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.875rem;
+}
+
+.settings__field input[type='range'] {
+  width: 100%;
+  max-width: 280px;
+}
+
+.resize-section__actions {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.resize-results {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+}
+
+.resize-results__item {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background: var(--surface);
+}
+
+.resize-results__item--done {
+  border-color: #059669;
+}
+
+.resize-results__item--error {
+  border-color: #dc2626;
+}
+
+.resize-results__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.8125rem;
+  margin-bottom: 0.35rem;
+}
+
+.resize-results__item ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.resize-results__item li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  padding: 0.35rem 0;
+  border-top: 1px solid var(--border);
 }

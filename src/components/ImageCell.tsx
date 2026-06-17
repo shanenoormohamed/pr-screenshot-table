@@ -1,8 +1,8 @@
 import { useRef, useState, type DragEvent } from 'react';
 import { ActionButton } from './ActionButton';
+import { ACCEPTED_TYPES } from '../lib/resize/types';
+import { detectKind, isAccepted } from '../lib/resize/fileMeta';
 import type { CellImage } from '../types';
-
-const ACCEPT = 'image/png,image/jpeg,image/gif,image/webp';
 
 type ImageCellProps = {
   cell: CellImage | null;
@@ -15,12 +15,15 @@ export function ImageCell({ cell, onSet, onClear }: ImageCellProps) {
   const [dragOver, setDragOver] = useState(false);
 
   const handleFile = (file: File | undefined) => {
-    if (!file || !file.type.startsWith('image/')) return;
+    if (!file || !isAccepted(file)) return;
+    const kind = detectKind(file);
+    if (!kind) return;
     if (cell?.previewUrl) URL.revokeObjectURL(cell.previewUrl);
     onSet({
       file,
       previewUrl: URL.createObjectURL(file),
       alt: file.name.replace(/\.[^.]+$/, ''),
+      kind,
     });
   };
 
@@ -44,14 +47,18 @@ export function ImageCell({ cell, onSet, onClear }: ImageCellProps) {
       <input
         ref={inputRef}
         type="file"
-        accept={ACCEPT}
+        accept={ACCEPTED_TYPES.join(',')}
         hidden
         onChange={(event) => handleFile(event.target.files?.[0])}
       />
 
       {cell ? (
         <>
-          <img src={cell.previewUrl} alt={cell.alt} />
+          {cell.kind === 'video' ? (
+            <video src={cell.previewUrl} muted playsInline />
+          ) : (
+            <img src={cell.previewUrl} alt={cell.alt} />
+          )}
           <input
             className="image-cell__alt"
             type="text"
@@ -71,7 +78,7 @@ export function ImageCell({ cell, onSet, onClear }: ImageCellProps) {
           </ActionButton>
         </>
       ) : (
-        <span className="image-cell__placeholder">Drop image</span>
+        <span className="image-cell__placeholder">Drop PNG, JPG, GIF, MOV</span>
       )}
     </div>
   );
