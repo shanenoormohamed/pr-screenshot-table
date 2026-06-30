@@ -34,11 +34,11 @@ function App() {
   );
 
   const [urlPrefix, setUrlPrefix] = useState('');
-  const [showRowTitles, setShowRowTitles] = useState(false);
+  const [hideRowTitles, setHideRowTitles] = useState(false);
 
   const markdown = useMemo(
-    () => generateMarkdown(table, urlPrefix, showRowTitles),
-    [table, urlPrefix, showRowTitles],
+    () => generateMarkdown(table, urlPrefix, hideRowTitles),
+    [table, urlPrefix, hideRowTitles],
   );
 
   return (
@@ -60,8 +60,8 @@ function App() {
       <TableEditor
         table={table}
         onChange={updateTable}
-        showRowTitles={showRowTitles}
-        onShowRowTitlesChange={setShowRowTitles}
+        hideRowTitles={hideRowTitles}
+        onHideRowTitlesChange={setHideRowTitles}
       />
 
       <ResizeSection table={table} />

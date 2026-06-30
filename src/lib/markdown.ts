@@ -39,16 +39,16 @@ function referenceDefinition(ref: ImageRef, urlPrefix: string): string {
 export function generateMarkdown(
   table: TableState,
   urlPrefix: string,
-  showRowTitles = false,
+  hideRowTitles = false,
 ): string {
   const { rows, cols, columnTitles, rowTitles, cells } = table;
   const { idGrid, refs } = buildRefIndex(cells);
 
   const headerCells = columnTitles.map(escapeCell);
-  if (showRowTitles) headerCells.unshift('');
+  if (!hideRowTitles) headerCells.unshift('');
   const header = `| ${headerCells.join(' | ')} |`;
 
-  const separatorCount = showRowTitles ? cols + 1 : cols;
+  const separatorCount = hideRowTitles ? cols : cols + 1;
   const separator = `| ${Array.from({ length: separatorCount }, () => '---').join(' | ')} |`;
 
   const body = Array.from({ length: rows }, (_, rowIndex) => {
@@ -56,7 +56,7 @@ export function generateMarkdown(
       const refId = idGrid[rowIndex]?.[colIndex];
       return refId ? `![${refId}]` : ' ';
     });
-    if (showRowTitles) {
+    if (!hideRowTitles) {
       imageCells.unshift(escapeCell(rowTitles[rowIndex] ?? ''));
     }
     return `| ${imageCells.join(' | ')} |`;

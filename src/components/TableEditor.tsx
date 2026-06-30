@@ -4,15 +4,15 @@ import type { CellImage, TableState } from '../types';
 type TableEditorProps = {
   table: TableState;
   onChange: (table: TableState) => void;
-  showRowTitles: boolean;
-  onShowRowTitlesChange: (value: boolean) => void;
+  hideRowTitles: boolean;
+  onHideRowTitlesChange: (value: boolean) => void;
 };
 
 export function TableEditor({
   table,
   onChange,
-  showRowTitles,
-  onShowRowTitlesChange,
+  hideRowTitles,
+  onHideRowTitlesChange,
 }: TableEditorProps) {
   const beforeAfterActive =
     table.columnTitles[0] === 'Before' && table.columnTitles[1] === 'After';
@@ -76,17 +76,17 @@ export function TableEditor({
         <label className="table-editor__check">
           <input
             type="checkbox"
-            checked={showRowTitles}
-            onChange={(event) => onShowRowTitlesChange(event.target.checked)}
+            checked={hideRowTitles}
+            onChange={(event) => onHideRowTitlesChange(event.target.checked)}
           />
-          Show row title column (left-most column)
+          Hide row title column (left-most column)
         </label>
       </div>
       <div className="table-editor__scroll">
         <table>
           <thead>
             <tr>
-              {showRowTitles && <th className="table-editor__corner" />}
+              {!hideRowTitles && <th className="table-editor__corner" />}
               {table.columnTitles.map((title, colIndex) => (
                 <th key={colIndex}>
                   <input
@@ -104,7 +104,7 @@ export function TableEditor({
           <tbody>
             {table.rowTitles.map((rowTitle, rowIndex) => (
               <tr key={rowIndex}>
-                {showRowTitles && (
+                {!hideRowTitles && (
                   <th>
                     <input
                       type="text"
