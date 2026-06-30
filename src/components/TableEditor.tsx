@@ -86,7 +86,7 @@ export function TableEditor({
         <table>
           <thead>
             <tr>
-              <th className="table-editor__corner" />
+              {showRowTitles && <th className="table-editor__corner" />}
               {table.columnTitles.map((title, colIndex) => (
                 <th key={colIndex}>
                   <input
@@ -104,16 +104,18 @@ export function TableEditor({
           <tbody>
             {table.rowTitles.map((rowTitle, rowIndex) => (
               <tr key={rowIndex}>
-                <th>
-                  <input
-                    type="text"
-                    value={rowTitle}
-                    aria-label={`Row ${rowIndex + 1} title`}
-                    onChange={(event) =>
-                      setRowTitle(rowIndex, event.target.value)
-                    }
-                  />
-                </th>
+                {showRowTitles && (
+                  <th>
+                    <input
+                      type="text"
+                      value={rowTitle}
+                      aria-label={`Row ${rowIndex + 1} title`}
+                      onChange={(event) =>
+                        setRowTitle(rowIndex, event.target.value)
+                      }
+                    />
+                  </th>
+                )}
                 {table.cells[rowIndex].map((cell, colIndex) => (
                   <td key={colIndex}>
                     <ImageCell
