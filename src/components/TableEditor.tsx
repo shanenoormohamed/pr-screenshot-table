@@ -63,14 +63,6 @@ export function TableEditor({
         Edit column and row titles. Drop a screenshot into each cell.
       </p>
       <div className="table-editor__controls">
-        <label className="table-editor__check">
-          <input
-            type="checkbox"
-            checked={showRowTitles}
-            onChange={(event) => onShowRowTitlesChange(event.target.checked)}
-          />
-          Show row title column (left-most column)
-        </label>
         {table.cols === 2 && (
           <label className="table-editor__check">
             <input
@@ -81,6 +73,14 @@ export function TableEditor({
             Set columns to Before / After
           </label>
         )}
+        <label className="table-editor__check">
+          <input
+            type="checkbox"
+            checked={showRowTitles}
+            onChange={(event) => onShowRowTitlesChange(event.target.checked)}
+          />
+          Show row title column (left-most column)
+        </label>
       </div>
       <div className="table-editor__scroll">
         <table>
