@@ -39,19 +39,27 @@ function referenceDefinition(ref: ImageRef, urlPrefix: string): string {
 export function generateMarkdown(
   table: TableState,
   urlPrefix: string,
+  showRowTitles = false,
 ): string {
   const { rows, cols, columnTitles, rowTitles, cells } = table;
   const { idGrid, refs } = buildRefIndex(cells);
 
-  const header = `|  | ${columnTitles.map(escapeCell).join(' | ')} |`;
-  const separator = `| ${Array.from({ length: cols + 1 }, () => '---').join(' | ')} |`;
+  const headerCells = columnTitles.map(escapeCell);
+  if (showRowTitles) headerCells.unshift('');
+  const header = `| ${headerCells.join(' | ')} |`;
+
+  const separatorCount = showRowTitles ? cols + 1 : cols;
+  const separator = `| ${Array.from({ length: separatorCount }, () => '---').join(' | ')} |`;
 
   const body = Array.from({ length: rows }, (_, rowIndex) => {
     const imageCells = Array.from({ length: cols }, (_, colIndex) => {
       const refId = idGrid[rowIndex]?.[colIndex];
       return refId ? `![${refId}]` : ' ';
     });
-    return `| ${escapeCell(rowTitles[rowIndex] ?? '')} | ${imageCells.join(' | ')} |`;
+    if (showRowTitles) {
+      imageCells.unshift(escapeCell(rowTitles[rowIndex] ?? ''));
+    }
+    return `| ${imageCells.join(' | ')} |`;
   });
 
   const parts = ['## Screenshots/Video', '', header, separator, ...body];

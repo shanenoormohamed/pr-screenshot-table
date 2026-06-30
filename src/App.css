@@ -228,6 +228,16 @@
   color: var(--text-muted);
 }
 
+.markdown-output__toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-h);
+}
+
 .markdown-output__preview {
   margin: 0 0 0.75rem;
   padding: 1rem;
