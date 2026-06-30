@@ -5,16 +5,12 @@ type MarkdownOutputProps = {
   markdown: string;
   urlPrefix: string;
   onUrlPrefixChange: (value: string) => void;
-  showRowTitles: boolean;
-  onShowRowTitlesChange: (value: boolean) => void;
 };
 
 export function MarkdownOutput({
   markdown,
   urlPrefix,
   onUrlPrefixChange,
-  showRowTitles,
-  onShowRowTitlesChange,
 }: MarkdownOutputProps) {
   const [copied, setCopied] = useState(false);
 
@@ -41,14 +37,6 @@ export function MarkdownOutput({
           Add a URL prefix to output full image URLs in the reference block instead.
         </p>
       </div>
-      <label className="markdown-output__toggle">
-        <input
-          type="checkbox"
-          checked={showRowTitles}
-          onChange={(event) => onShowRowTitlesChange(event.target.checked)}
-        />
-        Show row title column (left-most column)
-      </label>
       <pre className="markdown-output__preview">{markdown}</pre>
       <ActionButton className="copy-btn" onClick={() => void copy()}>
         {copied ? 'Copied!' : 'Copy markdown'}

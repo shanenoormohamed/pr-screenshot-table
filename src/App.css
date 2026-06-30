@@ -55,6 +55,23 @@
   border-color: var(--accent);
 }
 
+.table-editor__controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.table-editor__check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-h);
+  cursor: pointer;
+}
+
 .grid-picker__size {
   margin: 0 0 0.75rem;
   font-size: 0.875rem;
@@ -226,16 +243,6 @@
   margin: 0.35rem 0 0;
   font-size: 0.75rem;
   color: var(--text-muted);
-}
-
-.markdown-output__toggle {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--text-h);
 }
 
 .markdown-output__preview {
