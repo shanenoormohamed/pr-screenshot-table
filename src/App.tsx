@@ -34,10 +34,11 @@ function App() {
   );
 
   const [urlPrefix, setUrlPrefix] = useState('');
+  const [showRowTitles, setShowRowTitles] = useState(false);
 
   const markdown = useMemo(
-    () => generateMarkdown(table, urlPrefix),
-    [table, urlPrefix],
+    () => generateMarkdown(table, urlPrefix, showRowTitles),
+    [table, urlPrefix, showRowTitles],
   );
 
   return (
@@ -64,6 +65,8 @@ function App() {
         markdown={markdown}
         urlPrefix={urlPrefix}
         onUrlPrefixChange={setUrlPrefix}
+        showRowTitles={showRowTitles}
+        onShowRowTitlesChange={setShowRowTitles}
       />
     </div>
   );
