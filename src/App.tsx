@@ -57,7 +57,12 @@ function App() {
         onSelect={handleGridSelect}
       />
 
-      <TableEditor table={table} onChange={updateTable} />
+      <TableEditor
+        table={table}
+        onChange={updateTable}
+        showRowTitles={showRowTitles}
+        onShowRowTitlesChange={setShowRowTitles}
+      />
 
       <ResizeSection table={table} />
 
@@ -65,8 +70,6 @@ function App() {
         markdown={markdown}
         urlPrefix={urlPrefix}
         onUrlPrefixChange={setUrlPrefix}
-        showRowTitles={showRowTitles}
-        onShowRowTitlesChange={setShowRowTitles}
       />
     </div>
   );

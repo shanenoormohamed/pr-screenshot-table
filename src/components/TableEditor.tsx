@@ -1,14 +1,29 @@
-import { ActionButton } from './ActionButton';
 import { ImageCell } from './ImageCell';
-import { applyBeforeAfterColumns } from '../lib/table';
 import type { CellImage, TableState } from '../types';
 
 type TableEditorProps = {
   table: TableState;
   onChange: (table: TableState) => void;
+  showRowTitles: boolean;
+  onShowRowTitlesChange: (value: boolean) => void;
 };
 
-export function TableEditor({ table, onChange }: TableEditorProps) {
+export function TableEditor({
+  table,
+  onChange,
+  showRowTitles,
+  onShowRowTitlesChange,
+}: TableEditorProps) {
+  const beforeAfterActive =
+    table.columnTitles[0] === 'Before' && table.columnTitles[1] === 'After';
+
+  const toggleBeforeAfter = (checked: boolean) => {
+    onChange({
+      ...table,
+      columnTitles: checked ? ['Before', 'After'] : ['Column 1', 'Column 2'],
+    });
+  };
+
   const patch = (partial: Partial<TableState>) =>
     onChange({ ...table, ...partial });
 
@@ -47,14 +62,26 @@ export function TableEditor({ table, onChange }: TableEditorProps) {
       <p className="table-editor__hint">
         Edit column and row titles. Drop a screenshot into each cell.
       </p>
-      {table.cols === 2 && (
-        <ActionButton
-          className="table-editor__preset"
-          onClick={() => onChange(applyBeforeAfterColumns(table))}
-        >
-          Set columns to Before / After
-        </ActionButton>
-      )}
+      <div className="table-editor__controls">
+        <label className="table-editor__check">
+          <input
+            type="checkbox"
+            checked={showRowTitles}
+            onChange={(event) => onShowRowTitlesChange(event.target.checked)}
+          />
+          Show row title column (left-most column)
+        </label>
+        {table.cols === 2 && (
+          <label className="table-editor__check">
+            <input
+              type="checkbox"
+              checked={beforeAfterActive}
+              onChange={(event) => toggleBeforeAfter(event.target.checked)}
+            />
+            Set columns to Before / After
+          </label>
+        )}
+      </div>
       <div className="table-editor__scroll">
         <table>
           <thead>
